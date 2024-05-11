@@ -82,7 +82,7 @@ boxA, boxB, boxC = st.columns(3)
 #function for the predict button..ITs called when the user clicks on predict button
 def predict():
     predicted_price = model_rfn.predict(df).round(2)
-    boxB.markdown(f"<h1 style = 'color: #FFFFFF; text-align: center; font-size: 20px; font-family: Helvetica'>The average predicted price for a {Property_type} with {Bedrooms} bedrooms, {Bathrooms} bathrooms and {Toilets} toilets in {Area}, area of {Location} is N{int(predicted_price):,.2f}</h1>", unsafe_allow_html = True)
+    boxB.markdown(f"<h1 style = 'color: #OOOOOO; text-align: center; font-size: 20px; font-family: Helvetica'>The average predicted price for a {Property_type} with {Bedrooms} bedrooms, {Bathrooms} bathrooms and {Toilets} toilets in {Area}, area of {Location} is N{int(predicted_price):,.2f}</h1>", unsafe_allow_html = True)
 
 st.markdown("<br>", unsafe_allow_html=True)
 st.markdown("<br>", unsafe_allow_html=True)
