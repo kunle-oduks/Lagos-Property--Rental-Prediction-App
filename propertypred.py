@@ -14,6 +14,8 @@ def load_data(df):
     return data
 
 data = load_data('propertycenter.csv')
+ds = load_data('propertydet.csv')
+
 data['Estate'] = data['address'].apply(lambda x: x.split()[-3] +' ' + x.split()[-4] if len(x.split()) >3 else '')
 data['ppty_type'] =data['desc'].apply(lambda x: x.split()[2] + ' ' + x.split()[3] if len(x.split()) >4 else '') 
 data['ppty_type'] = data['ppty_type'].str.replace('/', '')
@@ -36,16 +38,25 @@ st.markdown("<br>", unsafe_allow_html=True)
 st.markdown("<br>", unsafe_allow_html=True)
 st.markdown("<br>", unsafe_allow_html=True)
 
+#This creates a dictionary that will match the location chosen by the user with areas within that location in the select box. This is achieved by first filtering the locations accordingly and getting unique values within the estate
+Area_location ={}
+for  i in ds.location.unique():
+    name = i.upper()
+    Area_location[name] = list(ds[ds['location'] == i ]['Estate'].unique())
+
 #Input Fetures to collect users data
 st.sidebar.write("<h4 style = 'margin: -30px; color: #F11A7B; text-align: center; font-family: cursive '>Please choose your home features</h4>", unsafe_allow_html = True)
+
 st.markdown("<br>", unsafe_allow_html=True)
 st.markdown("<br>", unsafe_allow_html=True)
+
 Bedrooms = st.sidebar.number_input('Number of Bedrooms', max_value = 5, min_value = 1)
 Bathrooms = st.sidebar.number_input('Number of Bathrooms', max_value = 5, min_value = 1)
 Toilets = st.sidebar.number_input('Number of Toilets', max_value = 5, min_value = 1)
 Property_type = st.sidebar.selectbox('Property Type', options = data['ppty_type'].unique())
 Location = st.sidebar.selectbox('Location', options = data['location'].unique())
-Area = st.sidebar.selectbox('Area in the Location chosen', options = data['Estate'].unique())
+
+Area = st.sidebar.selectbox('Area in the Location chosen', options = Area_location[Location.upper()])
 
 #dataframe to display users inputs
 df = pd.DataFrame()
